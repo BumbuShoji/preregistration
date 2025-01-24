@@ -54,7 +54,7 @@ function App() {
       <div
         className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
         style={{
-          backgroundImage: 'url("/public/image/31182843_l.jpg")'
+          backgroundImage: 'url("/image/31182843_l.jpg")'
         }}
       />
 

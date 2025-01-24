@@ -2,43 +2,62 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Pool } = require('pg');
+require('dotenv').config(); // ローカル環境用
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const pool = new Pool({
-  user: 'preregistration_matchingcupid',
-  host: 'localhost',
-  database: 'email_subscribers',
-  password: 'QY2J8z8z',
-  port: 5432,
-});
+// 環境変数からデータベース設定を取得
+const poolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false } // RenderのPostgreSQLに必須
+    }
+  : {
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT || 5432,
+    };
 
-// テーブル作成
-pool.query(`
-  CREATE TABLE IF NOT EXISTS email_subscribers (
-    id SERIAL PRIMARY KEY,
-    email TEXT UNIQUE
-  )
-`, (err) => {
-  if (err) {
-    console.error('Error creating table:', err);
+const pool = new Pool(poolConfig);
+
+// 非同期処理でテーブル作成
+const initializeDatabase = async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS email_subscribers (
+        id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE
+      )
+    `);
+    console.log('Table created/verified');
+  } catch (err) {
+    console.error('Error initializing database:', err);
+    process.exit(1); // 起動失敗
   }
-});
+};
+
+initializeDatabase();
 
 app.post('/subscribe', async (req, res) => {
   const { email } = req.body;
 
   try {
-    const result = await pool.query('INSERT INTO email_subscribers (email) VALUES ($1) RETURNING id', [email]);
+    const result = await pool.query(
+      'INSERT INTO email_subscribers (email) VALUES ($1) RETURNING id',
+      [email]
+    );
     res.status(201).json({ id: result.rows[0].id, email });
   } catch (error) {
-    if (error.code === '23505') { // Unique violation error code in PostgreSQL
+    if (error.code === '23505') {
       res.status(400).json({ error: 'Email already subscribed' });
     } else {
+      console.error('Database error:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
