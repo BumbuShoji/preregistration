@@ -128,7 +128,7 @@ function App() {
           <div className="mb-4">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
           </div>
-          <p>© 2024 LoveLink. All rights reserved.</p>
+          <p> 2025 MatchingCupid. All rights reserved.</p>
         </footer>
       </div>
 
