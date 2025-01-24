@@ -6,8 +6,18 @@ require('dotenv').config(); // ローカル環境用
 
 const app = express();
 const port = process.env.PORT || 3001;
+// CORS設定の改善
+const corsOptions = {
+  origin: [
+    process.env.VITE_FRONTEND_URL, // RenderのフロントエンドURL
+    'http://localhost:5173' // 開発環境
+  ],
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
-app.use(cors());
+// 静的ファイル配信の追加（フロントエンドビルドファイル用）
+app.use(express.static('dist'));
 app.use(bodyParser.json());
 
 // 環境変数からデータベース設定を取得

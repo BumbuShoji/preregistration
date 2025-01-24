@@ -7,6 +7,8 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -23,7 +25,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3001/subscribe', {
+      const response = await fetch(`${API_BASE_URL}/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
