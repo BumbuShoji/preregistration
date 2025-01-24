@@ -13,7 +13,7 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateEmail(email)) {
       setError('メールアドレスを入力してください');
       return;
@@ -52,21 +52,23 @@ function App() {
     <div className="min-h-screen relative bg-gradient-to-br from-blue-900 via-purple-900 to-violet-900 text-white">
       {/* Background Image Overlay */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay"
+        className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
         style={{
-          backgroundImage: 'url("/src/image/31182843_l.jpg")'
+          backgroundImage: 'url("/public/image/31182843_l.jpg")'
         }}
       />
 
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-4 py-12 min-h-screen flex flex-col">
         {/* Header */}
-        <header className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-violet-400">
-            LoveLink
+        <header className="text-center mb-5">
+          <h1 className="text-6xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-violet-400 py-5">
+            MatchingCupid
           </h1>
-          <h2 className="text-xl md:text-2xl mb-8 text-gray-300">
-          AIがあなたの『らしさ』を翻訳！ 堅いプロフィールから本音を読み取り、ズバッと刺さる一言を自動生成。マッチングアプリ疲れの新常識
+          <h2 className="font-hiragino text-xl md:text-2xl mb-8 text-gray-300">
+            <span className="block">AIがあなたの『らしさ』を翻訳！</span>
+            <span className="block mt-2 md:mt-3">堅いプロフィールから本音を読み取り、ズバッと刺さる一言を自動生成。</span>
+            <span className="block mt-3 md:mt-4 font-bold">マッチングアプリ疲れの新常識</span>
           </h2>
           <div className="flex flex-col md:flex-row justify-center gap-8 mt-8">
             {[
@@ -85,7 +87,7 @@ function App() {
         {/* Main Form Section */}
         <main className="flex-grow flex items-center justify-center">
           <div className="w-full max-w-md backdrop-blur-lg bg-white/10 p-8 rounded-2xl shadow-2xl">
-            <p className="text-xl text-center mb-8">
+            <p className="font-hiragino text-xl text-center mb-8">
             事前登録受付中！
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">

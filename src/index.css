@@ -1,3 +1,4 @@
+/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,21 +6,36 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    @apply font-sans; /* Tailwindの設定を反映 */
   }
 
   body {
-    @apply antialiased;
-    font-family: 'Hiragino Kaku Gothic', sans-serif;
+    @apply antialiased bg-gray-50 text-gray-900;
+    font-feature-settings: 'palt'; /* 日本語文字間隔最適化 */
+    letter-spacing: 0.02em;
   }
 }
 
-/* Custom animation for form error shake */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+/* カスタムアニメーション */
+@layer components {
+  .shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
 }
 
-.shake {
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+/* フォントレンダリング最適化 */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .font-hiragino {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+  }
 }
